@@ -1,4 +1,6 @@
+require('dotenv').config()
+
 module.exports = {
-  'secret': 'firstnodeauthapi',
-  'database': 'mongodb://localhost:27017/nodeapi'
+  'secret': process.env.SECRET,
+  'database': process.env.DB
 }

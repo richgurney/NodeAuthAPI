@@ -10,3 +10,4 @@ npm start
 
 # Request to http://localhost:3333/api/speakout should return test JSON
 ```
+## API Documentation

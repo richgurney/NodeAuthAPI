@@ -1,6 +1,4 @@
 var jwt      = require('jsonwebtoken');
-var express  = require('express')
-var app      = express();
 var config   = require('../config/config');
 var secret   = config.secret
 
