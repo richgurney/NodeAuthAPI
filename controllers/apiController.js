@@ -5,13 +5,13 @@ var config   = require('../config/config');
 var secret   = config.secret
 
 function setup(req, res) {
-  var rich = new User({
-    name: 'Richard',
+  var user = new User({
+    name: 'username',
     password: 'password',
     admin: true
   });
 
-  rich.save(function(err) {
+  user.save(function(err) {
     if (err) throw err;
 
     console.log('User saved successfully');

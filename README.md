@@ -8,7 +8,6 @@
 npm install
 npm start
 
-# Request to http://localhost:8888/api/ should return test Welcome to API
 ```
 ## Blog API Documentation
 
@@ -18,7 +17,23 @@ This Node.js API is uses JWT's Authenticate access to protected API routes. You 
 
 ### Register for an account
 
-Not yet setup to be able to create new accounts
+Not yet setup to be able to create new accounts. There is basic account setup with the following credentials that you can use:-
+
+```javascript
+var user = new User({
+  name: 'username',
+  password: 'password',
+  admin: true
+});
+
+user.save(function(err) {
+  if (err) throw err;
+
+  console.log('User saved successfully');
+  res.json({ success: true })
+});
+
+```
 
 ### Getting Token
 
