@@ -1,86 +1,75 @@
-var Cars = require('../models/cars');
+var Cars     = require('../models/cars');
+var User     = require('../models/user');
+var mongoose = require('mongoose');
+var jwt      = require('jsonwebtoken');
+var express  = require('express')
+var app      = express();
+var config   = require('../config/config');
+var secret   = config.secret
 
 //Show all the cars on the index page
-function getAll(req, res) {
-  debugger;
-  Cars.find(function(error, cars){
-    if(error) console.log(error)
-    res.json({cars: cars});
-  })
+function welcome(req, res) {
+  res.json({ message: 'Welcome to API'})
 }
 
-// Render the new form when you go to ./cars/new
-function newCar(req, res){
-  res.render('new');
-}
+function setup(req, res) {
+  var rich = new User({
+    name: 'Richard',
+    password: 'password',
+    admin: true
+  });
 
-function createCarEntry(req, res){
-  console.log(req)
-  var car = new Cars({
-    name: req.body.name,
-    description: req.body.description,
-    image: req.body.image,
-    id: req.params.id
-  })
+  rich.save(function(err) {
+    if (err) throw err;
 
-  car.save(function(error){
-    if(error) console.log(error)
-    res.json(car)
+    console.log('User saved successfully');
+    res.json({ success: true })
   });
 }
 
-function getCar(req, res){
-  var id = req.params.id;
-
-  Cars.findById(id, function(error, car){
-    if(error) console.log(error)
-    res.render('show', {car: car});
+function users(req, res) {
+  User.find({}, function(err, users){
+    res.json(users)
   })
 }
 
-function editCar(req, res){
-  var id = req.params.id;
+function auth(req, res) {
+  User.findOne({
+    name: req.body.name
+  }, function(err, user){
 
-  Cars.findById(id, function(error, car){
-    if(error) console.log(error)
+    if (err) throw err;
 
-    res.render('edit', {car: car})
-  })
-}
+    if(!user){
+      res.json({ success: false, message: 'Authentication failed. User not found'});
+    } else if (user) {
 
-function updateCar(req, res){
-  var id = req.body.id;
+      // check password
+      if(user.password != req.body.password) {
+        res.json({ success: false, message: 'Authentication failed. Wrong password'});
+      } else {
+        // set payload
+        const payload = {
+          admin: user.admin
+        }
+        // create token
 
-  Cars.findById(id, function(error, car){
-    if(error) console.log(error)
-
-    if(car){
-      car.name = req.body.name;
-      car.description = req.body.description;
-      car.image = req.body.image;
+        var token = jwt.sign(payload, secret, {
+          expiresIn: 1440
+        })
+        // respond with success and token
+        res.json({
+          success: true,
+          message: 'Enjoy your token!',
+          token: token
+        });
+      }
     }
-
-    car.save(function(error){
-      if(error) console.log(error)
-      res.json(car)
-    });
-  });
-}
-
-function removeCar(req, res){
-  var id = req.body.id;
-
-  Cars.remove({_id: id}, function(error){
-    if(error) console.log(error)
-    res.send("Car deleted")
   })
 }
 module.exports = {
-  getAll: getAll,
-  newCar: newCar,
-  createCarEntry: createCarEntry,
-  getCar: getCar,
-  updateCar: updateCar,
-  editCar: editCar,
-  removeCar:removeCar
+  welcome: welcome,
+  setup: setup,
+  users: users,
+  auth: auth
 }

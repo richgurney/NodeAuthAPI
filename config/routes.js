@@ -1,13 +1,18 @@
 var express = require('express');
 var router = express.Router();
 
-var carController = require('../controllers/carController');
 var apiController = require('../controllers/apiController');
-var speakOutController = require('../controllers/speakoutController');
 
+router.route('/')
+  .get(apiController.welcome)
 
-// API
-router.route('/api/speakout')
-  .get(speakOutController.response)
+router.route('/setup')
+  .get(apiController.setup)
+
+router.route('/users')
+  .get(apiController.users)
+
+router.route('/authenticate')
+  .post(apiController.auth)
 
 module.exports = router;
