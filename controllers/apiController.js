@@ -1,32 +1,23 @@
-var User     = require('../models/user');
-var mongoose = require('mongoose');
-var jwt      = require('jsonwebtoken');
-var config   = require('../config/config');
-var secret   = config.secret
+const User = require('../models/user');
 
 function setup(req, res) {
-  var user = new User({
+  const user = new User({
     name: 'username',
     password: 'password',
-    admin: true
+    admin: true,
   });
 
-  user.save(function(err) {
+  user.save((err) => {
     if (err) throw err;
-
-    console.log('User saved successfully');
-    res.json({ success: true })
+    res.json({ success: true });
   });
 }
 
-function users(req, res) {
-  User.find({}, function(err, users){
-    res.json(users)
-  })
+function getUsers(req, res) {
+  User.find({}, (err, users) => {
+    if (err) throw err;
+    res.json(users);
+  });
 }
 
-
-module.exports = {
-  setup: setup,
-  users: users,
-}
+module.exports = { setup, getUsers };

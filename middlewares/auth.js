@@ -1,25 +1,24 @@
-var jwt      = require('jsonwebtoken');
-var config   = require('../config/config');
-var secret   = config.secret
+const jwt = require('jsonwebtoken');
+const config = require('../config/config');
 
-module.exports = function(req, res, next) {
-  var token = req.body.token || req.query.token || req.headers['x-access-token'];
+const secret = config.secret;
 
-  console.log(token)
+module.exports = function auth(req, res, next) {
+  const token = req.body.token || req.query.token || req.headers['x-access-token'];
   // decode token
   if (token) {
-    jwt.verify(token, secret, function(err, decoded){
-      if(err){
-        return res.json({ success: false, message: 'Failed to authenticate token'});
+    jwt.verify(token, secret, (err, decoded) => {
+      if (err) {
+        res.json({ success: false, message: 'Failed to authenticate token' });
       } else {
         req.decoded = decoded;
         next();
       }
     });
   } else {
-    return res.status(403).send({
+    res.status(403).send({
       success: false,
-      message: 'No token provided'
+      message: 'No token provided',
     });
   }
-}
+};

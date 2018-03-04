@@ -1,28 +1,29 @@
-var express = require('express');
-var router = express.Router();
-var authMiddleware = require('../middlewares/auth');
-var apiController = require('../controllers/apiController');
-var authController = require('../controllers/authController');
-var postsController = require('../controllers/postsController');
+const express = require('express');
+const authMiddleware = require('../middlewares/auth');
+const apiController = require('../controllers/apiController');
+const authController = require('../controllers/authController');
+const postsController = require('../controllers/postsController');
+
+const router = express.Router();
 
 router.route('/authenticate')
-  .post(authController.auth)
+  .post(authController.auth);
 
 router.route('/posts')
-  .get(postsController.allPosts)
+  .get(postsController.allPosts);
 
 router.route('/posts/:id')
-  .get(postsController.onePost)
+  .get(postsController.onePost);
 
 // Protect the routes below
-router.use(authMiddleware)
+router.use(authMiddleware);
 
 // TODO - Remove this route in future
 router.route('/setup')
-  .get(apiController.setup)
+  .get(apiController.setup);
 
 // Show all users
 router.route('/users')
-  .get(apiController.users)
+  .get(apiController.getUsers);
 
 module.exports = router;

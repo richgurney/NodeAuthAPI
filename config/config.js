@@ -1,6 +1,6 @@
-require('dotenv').config()
+require('dotenv').config();
 
 module.exports = {
-  'secret': process.env.SECRET,
-  'database': process.env.DB
-}
+  secret: process.env.SECRET,
+  database: process.env.DB,
+};
