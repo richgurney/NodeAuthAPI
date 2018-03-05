@@ -3,4 +3,5 @@ require('dotenv').config();
 module.exports = {
   secret: process.env.SECRET,
   database: process.env.DB,
+  testDatabase: process.env.TESTDB,
 };
