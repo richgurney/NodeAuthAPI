@@ -10,8 +10,7 @@ function allPosts(req, res) {
 }
 
 function onePost(req, res) {
-  const query = Post.findOne({ id: req.params.if });
-  query.exec((err, post) => {
+  Post.findById(req.params.id, (err, post) => {
     if (err) res.send(err);
     res.json(post);
   });
