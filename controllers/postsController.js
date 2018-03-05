@@ -10,7 +10,11 @@ function allPosts(req, res) {
 }
 
 function onePost(req, res) {
-  res.json({ message: `This will show one post Id..${req.params.id}` });
+  const query = Post.findOne({ id: req.params.if });
+  query.exec((err, post) => {
+    if (err) res.send(err);
+    res.json(post);
+  });
 }
 
 module.exports = { allPosts, onePost };
