@@ -1,13 +1,13 @@
 const express = require('express');
 const authMiddleware = require('../middlewares/auth');
-const apiController = require('../controllers/apiController');
+const userController = require('../controllers/userController');
 const authController = require('../controllers/authController');
 const postsController = require('../controllers/postsController');
 
 const router = express.Router();
 
-router.route('/setup')
-  .get(apiController.setup);
+router.route('/users/setup')
+  .post(userController.setup);
 
 router.route('/authenticate')
   .post(authController.auth);
@@ -18,14 +18,15 @@ router.route('/posts')
 router.route('/posts/:id')
   .get(postsController.onePost);
 
-router.route('/users/clear')
-  .get(apiController.clearUsers);
+
 // Protect the routes below
+// ------------------------
 router.use(authMiddleware);
 
-// Show all users
-router.route('/users')
-  .get(apiController.getUsers);
+router.route('/users/clear')
+  .delete(userController.clearUsers);
 
+router.route('/users')
+  .get(userController.getUsers);
 
 module.exports = router;

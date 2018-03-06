@@ -9,7 +9,7 @@ const should = chai.should();
 
 chai.use(chaiHttp);
 
-describe('Posts service', () => {
+describe('Posts Service', () => {
 
   beforeEach((done) => {
     Post.remove({}, (err) => {
@@ -48,11 +48,12 @@ describe('Posts service', () => {
             res.body.should.have.property('author');
             res.body.should.have.property('body');
             res.body.should.have.property('createdAt');
+            res.body.title.should.equal(post.title);
+            res.body.author.should.equal(post.author);
+            res.body.body.should.equal(post.body);
             done();
           });
       })
-
-
     });
   });
 });

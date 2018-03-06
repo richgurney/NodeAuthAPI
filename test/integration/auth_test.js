@@ -12,29 +12,12 @@ const should = chai.should();
 
 chai.use(chaiHttp);
 
-describe('Authentication service', () => {
+describe('Authentication Service', () => {
 
   beforeEach((done) => {
-    chai.request(server)
-      .get('/api/users/clear')
-      .end((err, res) => {
-        res.status.should.equal(200);
-        res.body.should.have.property('success');
-        res.body.success.should.be.eql(true);
-        done();
-      });
-  });
-
-  describe('/GET setup an admin user', () => {
-    it('It should setup admin user', (done) => {
-      chai.request(server)
-        .get('/api/setup')
-        .end((err, res) => {
-          res.status.should.equal(200);
-          res.body.should.have.property('success');
-          res.body.success.should.be.eql(true);
-          done();
-        });
+    User.remove({}, (err) => {
+      if (err) throw err
+      done();
     });
   });
 
