@@ -6,6 +6,9 @@ const postsController = require('../controllers/postsController');
 
 const router = express.Router();
 
+router.route('/setup')
+  .get(apiController.setup);
+
 router.route('/authenticate')
   .post(authController.auth);
 
@@ -15,15 +18,14 @@ router.route('/posts')
 router.route('/posts/:id')
   .get(postsController.onePost);
 
+router.route('/users/clear')
+  .get(apiController.clearUsers);
 // Protect the routes below
 router.use(authMiddleware);
-
-// TODO - Remove this route in future
-router.route('/setup')
-  .get(apiController.setup);
 
 // Show all users
 router.route('/users')
   .get(apiController.getUsers);
+
 
 module.exports = router;

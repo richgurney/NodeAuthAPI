@@ -1,15 +1,22 @@
 const User = require('../models/user');
+const bcrypt = require('bcrypt');
+
+require('dotenv').config();
 
 function setup(req, res) {
-  const user = new User({
-    name: 'username',
-    password: 'password',
-    admin: true,
-  });
+  bcrypt.hash(process.env.PASSWORD, 10, (bcryptErr, hash) => {
+    if (bcryptErr) throw bcryptErr;
+    const user = new User({
+      name: process.env.USERNAME,
+      password: hash,
+      admin: true,
+    });
 
-  user.save((err) => {
-    if (err) throw err;
-    res.json({ success: true });
+    user.save((err) => {
+      if (err) throw err;
+      res.json({ success: true });
+      // res.json(user);
+    });
   });
 }
 
@@ -20,4 +27,11 @@ function getUsers(req, res) {
   });
 }
 
-module.exports = { setup, getUsers };
+function clearUsers(req, res) {
+  User.remove({}, (err) => {
+    if (err) throw err;
+    res.json({ success: true });
+  });
+}
+
+module.exports = { setup, getUsers, clearUsers };

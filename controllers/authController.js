@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const config = require('../config/config');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 const secret = config.secret;
 
@@ -13,24 +14,27 @@ function auth(req, res) {
       res.json({ success: false, message: 'Authentication failed. User not found' });
     } else if (user) {
       // Check password
-      if (user.password !== (req.body.password || req.query.password)) {
-        res.json({ success: false, message: 'Authentication failed. Wrong password' });
-      } else {
-        // Set payload
-        const payload = {
-          admin: user.admin,
-        };
-        // Create token
-        const token = jwt.sign(payload, secret, {
-          expiresIn: 1440,
-        });
-        // Respond with success and token
-        res.json({
-          success: true,
-          message: 'Enjoy your token!',
-          token,
-        });
-      }
+      bcrypt.compare((req.body.password || req.query.password), user.password, (bcryptErr, bcryptRes) => {
+        if (bcryptRes) {
+          // If passwords match
+          // Set payload
+          const payload = {
+            admin: user.admin,
+          };
+          // Create JWT token
+          const token = jwt.sign(payload, secret, {
+            expiresIn: 1440,
+          });
+          // Respond with success and token
+          res.json({
+            success: true,
+            message: 'Enjoy your token!',
+            token,
+          });
+        } else {
+          res.json({ success: false, message: 'Authentication failed. Wrong password' });
+        }
+      });
     }
   });
 }

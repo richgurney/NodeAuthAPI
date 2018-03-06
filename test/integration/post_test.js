@@ -1,20 +1,17 @@
 /* eslint-disable */
 process.env.NODE_ENV = 'test';
 
-const mongoose = require('mongoose');
 const Post = require('../../models/post');
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server = require('../../server');
-// const router = express.Router();
 const should = chai.should();
 
 chai.use(chaiHttp);
 
 describe('Posts service', () => {
-  // Before hook
+
   beforeEach((done) => {
-    // Before each test empty the database
     Post.remove({}, (err) => {
       if (err) throw err
       done();
@@ -48,6 +45,9 @@ describe('Posts service', () => {
             res.should.have.status(200);
             res.body.should.be.a('object');
             res.body.should.have.property('title');
+            res.body.should.have.property('author');
+            res.body.should.have.property('body');
+            res.body.should.have.property('createdAt');
             done();
           });
       })

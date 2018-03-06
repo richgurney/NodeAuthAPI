@@ -10,7 +10,6 @@ require('dotenv').config();
 
 const port = process.env.PORT || 3000;
 
-mongoose.connect(appConfig.database, { useMongoClient: true });
 app.set('superSecret', appConfig.secret);
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -18,6 +17,9 @@ app.use(bodyParser.json());
 
 if (process.env.NODE_ENV !== 'test') {
   app.use(morgan('combined'));
+  mongoose.connect(appConfig.database, { useMongoClient: true });
+} else {
+  mongoose.connect(appConfig.testDatabase, { useMongoClient: true });
 }
 
 const routes = require('./config/routes');
@@ -25,7 +27,8 @@ const routes = require('./config/routes');
 // app.use(authMiddleware)
 app.use('/api', routes);
 
-app.listen(port);
-console.log("Connection made on localhost:3000");
+app.listen(port, () => {
+  console.log(`App listening on port - ${port}`);
+});
 
-module.exports = app
+module.exports = app;
