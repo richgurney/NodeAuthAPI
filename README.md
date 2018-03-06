@@ -37,14 +37,13 @@ An API access token can created with `POST` request to:-
  ```bash
  http://localhost:8888/api/authenticate
  ```
+|Headers|/api/authenticate|
+| ------------- |:-------------:
+| Content-Type | application/x-www-form-urlencoded |
+| name | process.env.USERNAME      
+| pasword | process.env.PASSWORD            
 
-```
- HEADERS
- `Content-Type: application/x-www-form-urlencoded`
-  Supply:-
-  name
-  passowrd
-```
-```
+#### Query String
+```bash
 http://localhost:8888/api/authenticate?name=name&password=password
 ```
