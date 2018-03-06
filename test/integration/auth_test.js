@@ -40,7 +40,6 @@ describe('Authentication service', () => {
 
   describe('/POST authenticate', () => {
     it('It should return a token', (done) => {
-      console.log(process.env.PASSWORD, 'testing---------');
       bcrypt.hash(process.env.PASSWORD, 10, (bcryptErr, hash) => {
         if (bcryptErr) throw bcryptErr;
         const user = new User({
