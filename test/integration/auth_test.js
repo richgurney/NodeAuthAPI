@@ -7,7 +7,6 @@ const chaiHttp = require('chai-http');
 const server = require('../../server');
 const bcrypt = require('bcrypt');
 
-// const router = express.Router();
 const should = chai.should();
 
 chai.use(chaiHttp);
