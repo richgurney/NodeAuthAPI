@@ -3,7 +3,6 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const mongoose = require('mongoose'); // DB control program
 const appConfig = require('./config/config');
-// const config = require('config');
 
 const app = express();
 require('dotenv').config();
@@ -24,7 +23,6 @@ if (process.env.NODE_ENV !== 'test') {
 
 const routes = require('./config/routes');
 
-// app.use(authMiddleware)
 app.use('/api', routes);
 
 app.listen(port, () => {
