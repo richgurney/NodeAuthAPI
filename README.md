@@ -27,7 +27,7 @@ This Node.js API is uses JWT's Authenticate access to protected API routes. You 
 ### Setup Admin User
 
 ```bash
-GET - http://localhost:8888/api/setup
+GET - http://localhost:8888/api/users/setup
 ```
 The environmental variables will be used to set the admin user.
 
