@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const Post = require('../models/post');
 
 function allPosts(req, res) {
@@ -16,4 +15,36 @@ function onePost(req, res) {
   });
 }
 
-module.exports = { allPosts, onePost };
+function newPost(req, res) {
+  const newPostModel = new Post({
+    title: req.body.title,
+    author: req.body.author,
+    body: req.body.body,
+  });
+
+  newPostModel.save((err, post) => {
+    if (err) {
+      res.send({
+        message: err,
+      });
+    } else {
+      res.status(201).json(post);
+    }
+  });
+}
+
+function deletePost(req, res) {
+  Post.remove({ _id: req.params.id }, (err) => {
+    if (err) throw err;
+    res.send('Deleted');
+  });
+}
+
+function clearPosts(req, res) {
+  Post.remove({}, (err) => {
+    if (err) throw err;
+    res.json({ sucess: true });
+  });
+}
+
+module.exports = { allPosts, onePost, newPost, deletePost, clearPosts };

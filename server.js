@@ -2,9 +2,12 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const mongoose = require('mongoose'); // DB control program
+const cors = require('cors');
 const appConfig = require('./config/config');
 
 const app = express();
+
+app.use(cors());
 require('dotenv').config();
 
 const port = process.env.PORT || 3000;

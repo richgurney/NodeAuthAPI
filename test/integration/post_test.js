@@ -56,4 +56,31 @@ describe('Posts Service', () => {
       })
     });
   });
+
+  describe('/POST new post', () => {
+    it('It should POST one new post and return created post', (done) => {
+      const newPostModel = {
+        title: 'This is the title',
+        author: 'This is the author',
+        body: 'This is the body',
+      };
+      chai.request(server)
+        .post(`/api/posts`)
+        .send(newPostModel)
+        .end((err, res) => {
+          res.should.have.status(201);
+          res.body.should.be.a('object');
+          res.body.should.have.property('title');
+          res.body.should.have.property('author');
+          res.body.should.have.property('body');
+          res.body.should.have.property('createdAt');
+          res.body.title.should.equal(newPostModel.title);
+          res.body.author.should.equal(newPostModel.author);
+          res.body.body.should.equal(newPostModel.body);
+          done();
+        });
+    })
+  })
+
+
 });

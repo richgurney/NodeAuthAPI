@@ -18,10 +18,18 @@ router.route('/posts')
 router.route('/posts/:id')
   .get(postsController.onePost);
 
-
-// Protect the routes below
+// Protect the routes below5
 // ------------------------
 router.use(authMiddleware);
+
+router.route('/posts/clearall')
+  .delete(postsController.clearPosts);
+
+router.route('/posts')
+  .post(postsController.newPost);
+
+router.route('/posts/:id')
+  .delete(postsController.deletePost);
 
 router.route('/users/clear')
   .delete(userController.clearUsers);
