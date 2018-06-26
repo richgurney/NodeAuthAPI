@@ -37,7 +37,7 @@ describe('Posts Service', () => {
         title: 'Richard\'s First Post',
         author: 'Richard Gurney',
         body: 'This is the most exciting blog post in the world',
-        likes: 1,
+        likes: 0,
       })
       post.save((err, post) => {
         chai.request(server)
@@ -87,13 +87,30 @@ describe('Posts Service', () => {
 
   describe('/POST like post', () => {
     it('It should add a like to a POST ', (done) => {
-      // chai.request(server)
-      //   .post(`/api/posts`)
-      //   .end((err, res) => {
-      //     res.should.have.status(201);
-      //     done()
-      //   });
-      done()
+      const post = new Post({
+        title: 'Richard\'s Like Post',
+        author: 'Richard Gurney',
+        body: 'This is the most exciting blog post in the world',
+        likes: 0,
+      })
+      post.save((err, post) => {
+        chai.request(server)
+          .post(`/api/posts/${post.id}/like`)
+          .end((err, res) => {
+            res.should.have.status(200);
+            res.body.should.be.a('object');
+            res.body.should.have.property('title');
+            res.body.should.have.property('author');
+            res.body.should.have.property('body');
+            res.body.should.have.property('likes');
+            res.body.should.have.property('createdAt');
+            res.body.title.should.equal(post.title);
+            res.body.author.should.equal(post.author);
+            res.body.body.should.equal(post.body);
+            res.body.likes.should.equal(1);
+            done();
+          });
+      })
     })
   })
 

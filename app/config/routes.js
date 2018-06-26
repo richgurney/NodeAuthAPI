@@ -24,7 +24,7 @@ router.route('/posts/:id/like')
 
 // Protect the routes below5
 // ------------------------
-// router.use(authMiddleware);
+router.use(authMiddleware);
 
 router.route('/posts/clearall')
   .delete(postsController.clearPosts);

@@ -51,19 +51,16 @@ function clearPosts(req, res) {
 function likePost(req, res) {
   const id = req.params.id;
 
-  Post.findById(id, (err, post) => {
-    if (err) throw err;
+  Post.findById(id, (error, post) => {
+    if (error) throw error;
+    if (post) {
+      post.likes += 1;
+    }
 
-    res.json(post)
-
-    // if (post) {
-    //   post.likes += 1;
-    // }
-    //
-    // Post.save((errorSave, savedPost) => {
-    //   if (errorSave) throw errorSave;
-    //   res.json(savedPost);
-    // });
+    post.save((likeError) => {
+      if (likeError) throw likeError;
+      res.json(post);
+    });
   });
 }
 
