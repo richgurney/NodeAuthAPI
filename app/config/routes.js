@@ -13,20 +13,25 @@ router.route('/authenticate')
   .post(authController.auth);
 
 router.route('/posts')
-  .get(postsController.allPosts);
+  .get(postsController.allPosts)
+  .post(postsController.newPost);
 
 router.route('/posts/:id')
   .get(postsController.onePost);
 
+router.route('/posts/:id/like')
+  .post(postsController.likePost);
+
 // Protect the routes below5
 // ------------------------
-router.use(authMiddleware);
+// router.use(authMiddleware);
 
 router.route('/posts/clearall')
   .delete(postsController.clearPosts);
 
-router.route('/posts')
-  .post(postsController.newPost);
+// TODO - Make into protected for production
+// router.route('/posts')
+//   .post(postsController.newPost);
 
 router.route('/posts/:id')
   .delete(postsController.deletePost);

@@ -19,6 +19,7 @@ function newPost(req, res) {
   const newPostModel = new Post({
     title: req.body.title,
     author: req.body.author,
+    likes: 0,
     body: req.body.body,
   });
 
@@ -47,4 +48,23 @@ function clearPosts(req, res) {
   });
 }
 
-module.exports = { allPosts, onePost, newPost, deletePost, clearPosts };
+function likePost(req, res) {
+  const id = req.params.id;
+
+  Post.findById(id, (err, post) => {
+    if (err) throw err;
+
+    res.json(post)
+
+    // if (post) {
+    //   post.likes += 1;
+    // }
+    //
+    // Post.save((errorSave, savedPost) => {
+    //   if (errorSave) throw errorSave;
+    //   res.json(savedPost);
+    // });
+  });
+}
+
+module.exports = { allPosts, onePost, newPost, deletePost, clearPosts, likePost };
